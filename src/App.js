@@ -1,11 +1,15 @@
+import FormSignUp from './components/FormSignUp';
 import './App.css';
-import ClassComponent from './components/ClassComponents';
-import FuncComponent from './components/FuncComponent';
+import { Container } from "@mui/material"
+import { Typography } from '@mui/material';
+
 
 function App() {
   return (
-    <div>
-    </div>
+    <Container component="section" maxWidth="sm">
+      <Typography variant="h3" align="center">Formulario Registro</Typography>
+      <FormSignUp/>
+    </Container>
   );
 }
 
