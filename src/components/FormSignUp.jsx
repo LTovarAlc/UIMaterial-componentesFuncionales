@@ -5,13 +5,46 @@ import { TextField} from "@mui/material/"
 import { Switch} from "@mui/material/"
 import { FormGroup} from "@mui/material"
 
-function FormSignUp (handleSubmit) {
+function FormSignUp ({handleSubmit}) {
     const [name, setName] = useState("")
     const [lastName, setLastName] = useState("")
     const [email, setEmail] = useState("")
     const [prom, setProm] = useState(true)
     const [nov, setNov] = useState(false)
 
+    const [errors, setErrors] = useState({
+        name: {
+            error: false,
+            message: "Deben ser almenos 3 caracteres"
+        },
+        lastName:{
+            error: false,
+            message: "Deben ser almenos 3 caracteres"
+        }
+    })
+        
+    function validarNombre(name){
+        if(name.length >= 3){
+            return { name:{ error: false, message: ''}}
+        }else{
+            return { name:{ error: true, message: 'Deben ser almenos 3 caracteres'}}
+        }
+    }
+
+    function validarLastName(lastName){
+        if(lastName.length >= 3){
+            return { lastName:{ error: false, message: ''}}
+        }else{
+            return { lastName:{ error: true, message: 'Deben ser almenos 3 caracteres'}}
+        }
+    }
+
+    function validarEmail(email){
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+        return emailRegex.test(email);
+    }
+ 
     return (
     <form onSubmit={(e) => {
         e.preventDefault()
@@ -31,6 +64,15 @@ function FormSignUp (handleSubmit) {
             margin="normal"
             onChange={(e) => setName(e.target.value)}
             value={name}
+            error={errors.name && errors.name.error}
+            helperText={errors.name.message ? errors.name.message: ''}
+            onBlur={(e)=> {
+                const nameValidation = validarNombre(e.target.value)
+                setErrors({
+                    ...errors,
+                    name: nameValidation.name
+                })
+            }}
         />
         <TextField 
             id="lastname" 
@@ -40,6 +82,15 @@ function FormSignUp (handleSubmit) {
             margin="normal"
             value={lastName}
             onChange={(e) => setLastName(e.target.value) }
+            error={errors.lastName && errors.lastName.error}
+            helperText={errors.lastName.message ? errors.lastName.message: ''}
+            onBlur={(e) => {
+                const lastNameValidartion = validarLastName(e.target.value)
+                setErrors({
+                    ...errors,
+                    lastName: lastNameValidartion.lastName
+                })
+            }}
         />
         <TextField 
             id="email" 
@@ -49,6 +100,8 @@ function FormSignUp (handleSubmit) {
             margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            error={!validarEmail(email) && email !== ""}
+            helperText={!validarEmail(email) && email !== "" ? "Correo electronico inválido" : ""}
         />
         <FormGroup>
             <FormControlLabel 
