@@ -1,10 +1,17 @@
-import {Button, FormControl, FormControlLabel}  from "@mui/material/"
-import {TextField} from "@mui/material/"
-import {Switch} from "@mui/material/"
-import {FormGroup} from "@mui/material"
-import {FormCrontollLabel} from "@mui/material"
+import React from "react"
+import { useState, useEffect } from "react"
+import { Button, FormControl, FormControlLabel}  from "@mui/material/"
+import { TextField} from "@mui/material/"
+import { Switch} from "@mui/material/"
+import { FormGroup} from "@mui/material"
 
 function FormSignUp () {
+
+    const [name, setName] = useState ('')
+    useEffect (() => {
+        console.log('name cambio', name)
+    }, [name])
+
     return (
     <form>
         <TextField 
@@ -13,6 +20,11 @@ function FormSignUp () {
             variant="outlined" 
             fullWidth
             margin="normal"
+            onChange={(e) => {
+                console.log(e.target.value)
+                setName(e.target.value)
+            }}
+            value={name}
         />
         <TextField 
             id="lastname" 
